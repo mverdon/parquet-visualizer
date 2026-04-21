@@ -6,6 +6,7 @@
 </script>
 
 <svelte:head>
+	<title>Parquet Visualizer</title>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
