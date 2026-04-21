@@ -8,6 +8,9 @@
 	// Register AG-Grid modules
 	ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
+	// Track dark mode
+	let isDarkMode = $state(false);
+
 	interface Props {
 		data: any[];
 		columns?: string[];
@@ -137,6 +140,27 @@
 			}
 			createGrid(gridContainer, gridOptions);
 		}
+
+		// Detect initial dark mode
+		isDarkMode = document.documentElement.classList.contains('dark');
+
+		// Watch for theme changes
+		const observer = new MutationObserver((mutations) => {
+			mutations.forEach((mutation) => {
+				if (mutation.attributeName === 'class') {
+					isDarkMode = document.documentElement.classList.contains('dark');
+				}
+			});
+		});
+
+		observer.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ['class']
+		});
+
+		return () => {
+			observer.disconnect();
+		};
 	});
 
 	onDestroy(() => {
@@ -177,15 +201,32 @@
 	});
 </script>
 
-<div bind:this={gridContainer} class="ag-theme-quartz" style="height: {height}; width: 100%;"></div>
+<div
+	bind:this={gridContainer}
+	class={isDarkMode ? 'ag-theme-quartz-dark' : 'ag-theme-quartz'}
+	style="height: {height}; width: 100%;"
+></div>
 
 <style>
 	:global(.ag-theme-quartz) {
-		--ag-border-color: rgb(229 231 235);
-		--ag-header-background-color: rgb(249 250 251);
-		--ag-odd-row-background-color: rgb(255 255 255);
-		--ag-row-hover-color: rgb(243 244 246);
-		--ag-selected-row-background-color: rgb(239 246 255);
+		--ag-background-color: hsl(var(--background));
+		--ag-foreground-color: hsl(var(--foreground));
+		--ag-border-color: hsl(var(--border));
+		--ag-header-background-color: hsl(var(--muted));
+		--ag-odd-row-background-color: hsl(var(--background));
+		--ag-row-hover-color: hsl(var(--muted));
+		--ag-selected-row-background-color: hsl(var(--accent) / 0.1);
+		--ag-font-family: inherit;
+	}
+
+	:global(.ag-theme-quartz-dark) {
+		--ag-background-color: hsl(var(--background));
+		--ag-foreground-color: hsl(var(--foreground));
+		--ag-border-color: hsl(var(--border));
+		--ag-header-background-color: hsl(var(--muted));
+		--ag-odd-row-background-color: hsl(var(--background));
+		--ag-row-hover-color: hsl(var(--muted));
+		--ag-selected-row-background-color: hsl(var(--accent) / 0.2);
 		--ag-font-family: inherit;
 	}
 
