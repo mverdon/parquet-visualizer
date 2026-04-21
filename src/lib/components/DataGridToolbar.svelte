@@ -97,7 +97,7 @@
 
 				{#if showPageSizeMenu}
 					<div
-						class="absolute left-0 mt-2 w-40 bg-white border border-border rounded-lg shadow-lg z-50"
+						class="absolute left-0 mt-2 w-40 bg-background border border-border rounded-lg shadow-lg z-50"
 					>
 						<div class="p-1">
 							{#each availablePageSizes as size}
@@ -166,7 +166,7 @@
 
 			{#if showColumnMenu}
 				<div
-					class="absolute right-0 mt-2 w-64 bg-white border border-border rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto"
+					class="absolute right-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto"
 				>
 					<div class="p-2">
 						<div class="text-xs font-medium text-muted-foreground px-2 py-1 mb-1">
